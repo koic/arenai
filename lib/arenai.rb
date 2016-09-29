@@ -12,13 +12,8 @@ module Arenai
       id = ids.first
       return super if !((Fixnum === id) || (String === id))
 
-      if %w(mysql mysql2).include? connection.pool.spec.config[:adapter]
-        # SELECT "users".* FROM "users" WHERE "users"."id" = ?  [["id", 1]]
-        find_by_sql("SELECT #{quoted_table_name}.* FROM #{quoted_table_name} WHERE #{quoted_table_name}.#{connection.quote_column_name primary_key} = #{id}").first
-      else
-        # SELECT "users".* FROM "users" WHERE "users"."id" = $1  [["id", 1]]
-        find_by_sql("SELECT #{quoted_table_name}.* FROM #{quoted_table_name} WHERE #{quoted_table_name}.#{connection.quote_column_name primary_key} = $1", [[columns_hash[primary_key], id]]).first
-      end
+      # SELECT "users".* FROM "users" WHERE "users"."id" = ?  [["id", 1]]
+      find_by_sql("SELECT #{quoted_table_name}.* FROM #{quoted_table_name} WHERE #{quoted_table_name}.#{connection.quote_column_name primary_key} = #{id}").first
     end
   end
 
