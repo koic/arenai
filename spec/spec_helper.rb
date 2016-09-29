@@ -13,7 +13,7 @@ ActiveRecord::Base.establish_connection('sqlite3::memory:')
 
 RSpec.configure do |config|
   config.before :all do
-    CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'authors'
+    CreateAllTables.up unless ActiveRecord::Base.connection.data_source_exists? 'authors'
 
     Author.create! name: 'matz', email: 'matz@ruby-lang.org'
     Author.create! name: 'keiju'
